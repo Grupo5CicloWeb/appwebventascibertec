@@ -11,8 +11,11 @@ import pe.edu.cibertec.appwebventascibertec.service.ICategoryService;
 @RequestMapping("/category")
 public class CategoryController {
     private ICategoryService iCategoryService;
+
     @GetMapping("/init")
     public String formCategory(Model model){
+        model.addAttribute("listcategory",
+                iCategoryService.listCategories());
         return "backoffice/category/frmcategory";
     }
 

@@ -1,10 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="layout::head">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<nav th:replace="layout::menu"></nav>
+
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Descripción</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="category :${listcategory}">
+        <td th:text="${category.categoryid}"></td>
+        <td th:text="${category.categoryname}"></td>
+        <td th:text="${category.description}"></td>
+    </tr>
+    </tbody>
+</table>
 
 </body>
 </html>
