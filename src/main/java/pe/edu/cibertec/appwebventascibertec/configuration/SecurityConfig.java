@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import pe.edu.cibertec.appwebventascibertec.service.DetalleUsuarioService;
@@ -21,6 +22,7 @@ public class SecurityConfig {
     public SecurityFilterChain configSecurity(
             HttpSecurity httpSecurity) throws Exception{
         httpSecurity
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         auth ->
                                 auth.requestMatchers(
@@ -40,13 +42,14 @@ public class SecurityConfig {
                 ).logout(
                         logout ->
                                 logout.logoutSuccessUrl("/auth/login")
+                                        .invalidateHttpSession(true)
                 ).authenticationProvider(authenticationProvider());
         return httpSecurity.build();
 
     }
 
     @Bean
-    private AuthenticationProvider authenticationProvider() {
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider
                 = new DaoAuthenticationProvider();
         daoAuthenticationProvider
