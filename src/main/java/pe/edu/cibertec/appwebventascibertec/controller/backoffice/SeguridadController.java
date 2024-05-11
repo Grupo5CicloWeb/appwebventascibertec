@@ -16,12 +16,11 @@ import java.util.List;
 @RequestMapping("/seguridad")
 public class SeguridadController {
     private IUsuarioService iUsuarioService;
-
     @GetMapping("/init")
     public String formUsuario(Model model){
         model.addAttribute("listausuarios",
                 iUsuarioService.listarUsuarios());
-        return "backoffice/seguridad/formusuario";
+        return "backoffice/seguridad/frmusuario";
     }
 
     @PostMapping("/usuario")
