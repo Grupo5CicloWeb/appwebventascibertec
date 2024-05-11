@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pe.edu.cibertec.appwebventascibertec.model.bd.Rol;
 import pe.edu.cibertec.appwebventascibertec.model.bd.Usuario;
+import pe.edu.cibertec.appwebventascibertec.model.dto.security.UsuarioSecurity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +32,9 @@ public class DetalleUsuarioService
 
     private List<GrantedAuthority> obtenerListaRolesUsuario(
             Set<Rol> roles
-    ){
+    ) {
         List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
-        for (Rol rol: roles){
+        for (Rol rol : roles) {
             grantedAuthorityList.add(new SimpleGrantedAuthority(
                     rol.getNomrol()
             ));
@@ -44,11 +45,16 @@ public class DetalleUsuarioService
     private UserDetails obtenerUsuarioAutenticado(
             Usuario usuario,
             List<GrantedAuthority> grantedAuthorityList
-    ){
-        return new User(usuario.getNomusuario(),
+    ) {
+        UsuarioSecurity usuarioSecurity = new UsuarioSecurity(
+                usuario.getNomusuario(),
                 usuario.getPassword(),
                 usuario.getActivo(), true,
                 true, true,
-                grantedAuthorityList);
+                grantedAuthorityList
+        );
+        usuarioSecurity.setEmail(usuario.getEmail());
+        usuarioSecurity.setIdusuario(usuario.getIdusuario());
+        return usuarioSecurity;
     }
 }
